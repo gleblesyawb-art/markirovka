@@ -62,10 +62,24 @@
   .cart-btn .cart-count{position:absolute;top:-7px;right:-7px;width:20px;height:20px;border-radius:50%;background:var(--white);color:#04101F;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg);}
   @media(max-width:1024px){.head-phone{display:none;}}
 
+  .burger{display:none;width:40px;height:40px;border:1px solid var(--border-strong);background:transparent;align-items:center;justify-content:center;flex-direction:column;gap:5px;cursor:pointer;flex-shrink:0;}
+  .burger span{width:18px;height:2px;background:var(--white);display:block;}
+  #nav-toggle{display:none;}
+  @media(max-width:900px){
+    .burger{display:flex;}
+    nav{display:none;position:fixed;top:81px;left:0;right:0;bottom:0;background:var(--bg);flex-direction:column;align-items:stretch;gap:0;padding:12px 24px;overflow-y:auto;z-index:49;}
+    nav>.nav-item{width:100%;}
+    nav>.nav-item>a{width:100%;padding:16px 0;border-bottom:1px solid var(--border);justify-content:space-between;font-size:17px;}
+    nav .dropdown{position:static;min-width:0;opacity:1;visibility:visible;transform:none;background:transparent;border:none;box-shadow:none;padding:0 0 8px;display:none;}
+    nav .nav-item.open .dropdown{display:block;}
+    nav .dropdown a{padding:12px 0 12px 12px;}
+    #nav-toggle:checked ~ nav{display:flex;}
+  }
+
   .hero{position:relative;padding:80px 0 56px;overflow:hidden;}
   .hero::before{content:"";position:absolute;right:-180px;top:-120px;width:600px;height:600px;border-radius:50%;border:1px solid rgba(52,155,249,0.16);}
   .hero::after{content:"";position:absolute;right:-70px;top:-10px;width:400px;height:400px;border-radius:50%;border:1px solid rgba(52,155,249,0.26);}
-  .hero h1{font-size:38px;max-width:820px;position:relative;}
+  .hero h1{font-size:44px;max-width:820px;position:relative;}
   .hero p.lead{font-size:17px;color:var(--gray);max-width:660px;margin:20px 0 30px;position:relative;}
   .hero-ctas{display:flex;gap:16px;margin-bottom:36px;position:relative;}
   .badges{display:flex;flex-wrap:wrap;gap:12px;position:relative;}
@@ -186,17 +200,26 @@
   .contact h2{font-size:26px;margin-bottom:12px;}
   .field{margin-bottom:18px;}
   .field label{display:block;font-size:12px;color:var(--gray-dim);margin-bottom:7px;text-transform:uppercase;letter-spacing:.04em;}
-  .field input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border-strong);color:var(--white);font-family:'Inter';font-size:15px;padding:8px 0;outline:none;}
+  .cta-strip{margin-top:28px;background:var(--card);border:1px solid var(--blue);border-left:3px solid var(--blue);padding:24px 28px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;}
+  .cta-strip-title{font-weight:700;font-size:16px;color:var(--white);}
+  .cta-strip-text{color:var(--gray);font-size:13.5px;margin-top:4px;}
+  @media(max-width:700px){.cta-strip{flex-direction:column;align-items:flex-start;}.cta-strip .btn{width:100%;text-align:center;}}
+
+  .field input{width:100%;background:var(--card-2);border:1px solid var(--border-strong);color:var(--white);font-family:'Inter';font-size:15px;padding:13px 14px;outline:none;border-radius:2px;transition:border-color .2s;}
+  .field input:focus{border-color:var(--blue);}
   .field input::placeholder{color:var(--gray-dim);}
 
   footer{border-top:1px solid var(--border);padding:32px 0;}
   footer .row{display:flex;justify-content:space-between;align-items:center;color:var(--gray-dim);font-size:13px;flex-wrap:wrap;gap:10px;}
   footer .legal{color:var(--gray-dim);font-size:11.5px;margin-top:14px;line-height:1.7;max-width:900px;}
 
-  .quicklinks{background:var(--bg-2);border-bottom:1px solid var(--border);}
-  .quicklinks .wrap{display:flex;gap:28px;padding:14px 24px;flex-wrap:wrap;}
-  .quicklinks a{font-size:13.5px;color:var(--gray);padding-bottom:2px;border-bottom:1px solid transparent;}
-  .quicklinks a:hover{color:var(--blue);border-bottom:1px solid rgba(52,155,249,0.4);}
+  .page-anchors{position:sticky;top:var(--header-h, 82px);z-index:49;background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+  .page-anchors-row{display:flex;justify-content:center;gap:32px;padding:0 24px;flex-wrap:wrap;}
+  .page-anchors a{position:relative;font-size:13px;line-height:1.2;font-weight:600;color:var(--gray);padding:13px 0 11px;border-bottom:2px solid transparent;white-space:nowrap;transition:color .2s,border-color .2s;}
+  .page-anchors a:hover{color:var(--white);}
+  .page-anchors a.active{color:var(--blue);border-bottom:2px solid var(--blue);}
+  @media(max-width:600px){.page-anchors-row{gap:20px;justify-content:flex-start;overflow-x:auto;}}
+  #check,#outsource,#faq{scroll-margin-top:calc(var(--header-h, 82px) + 46px);}
 
   @media(max-width:900px){
     .grid-3,.grid-2,.stats,.pricing,.combo,.role-grid,.cases-grid{grid-template-columns:1fr 1fr;}
@@ -214,6 +237,7 @@
 <header>
   <div class="wrap row">
     <div class="logo">GLOBAL<br>OFFICE</div>
+    <input type="checkbox" id="nav-toggle">
     <nav>
       <div class="nav-item"><a href="#">О компании</a></div>
       <div class="nav-item">
@@ -244,18 +268,10 @@
         <a href="#contact" class="callback">Заказать обратный звонок</a>
       </div>
       <a href="#" class="cart-btn" aria-label="Корзина">🛒<span class="cart-count">0</span></a>
+      <label for="nav-toggle" class="burger" aria-label="Меню"><span></span><span></span><span></span></label>
     </div>
   </div>
 </header>
-
-<div class="quicklinks">
-  <div class="wrap">
-    <a href="#check">Товары под маркировку</a>
-    <a href="#services">Услуги</a>
-    <a href="#cost">Стоимость</a>
-    <a href="#faq">Вопросы</a>
-  </div>
-</div>
 
 <section class="hero">
   <div class="wrap">
@@ -273,6 +289,14 @@
     </div>
   </div>
 </section>
+
+<nav class="page-anchors" aria-label="Быстрые переходы по странице">
+  <div class="wrap page-anchors-row">
+    <a href="#check">Товары под маркировку</a>
+    <a href="#outsource">Что берём на себя</a>
+    <a href="#faq">FAQ</a>
+  </div>
+</nav>
 
 <section class="section section-alt" id="check">
   <div class="wrap">
@@ -569,6 +593,13 @@
       <div class="stat"><div class="num">150+</div><div class="label">Специалистов</div><div class="ctx">Инженеры по 1С, «Честному ЗНАКу» и оборудованию</div></div>
       <div class="stat"><div class="num">Под ключ</div><div class="label">Формат работы</div><div class="ctx">Внедрение, интеграция и сопровождение — одним исполнителем</div></div>
     </div>
+    <div class="cta-strip">
+      <div>
+        <div class="cta-strip-title">Проверим, что нужно именно вашему бизнесу</div>
+        <div class="cta-strip-text">15 минут на звонке — и вы знаете точный список работ и порядок стоимости</div>
+      </div>
+      <a href="#contact" class="btn btn-primary">Получить консультацию</a>
+    </div>
   </div>
 </section>
 
@@ -626,6 +657,13 @@
       <p>Нет. Токен X-API-KEY продлён до 1 октября 2026 года, поэтому касса продолжает проверять коды маркировки по прежней схеме и продажи не останавливаются. Но при отсутствии установленного модуля ТС ПИоТ (когда решение для вашей кассы уже есть в реестре) «Честный ЗНАК» фиксирует отклонения и передаёт их в контролирующие органы — это может стать основанием для проверки и ответственности по ст. 15.12 КоАП РФ. Если совместимого решения для вашей кассы в реестре пока нет — отклонения не фиксируются. Поможем подобрать и поставить модуль заранее.</p>
     </details>
     <p class="source-note">По официальным материалам портала «Честный ЗНАК» (markirovka.ru) на 09.07.2026. Сроки и требования по ТС ПИоТ периодически меняются (срок действия токена уже переносился) — перед публикацией и в дальнейшем сверяйтесь повторно.</p>
+    <div class="cta-strip" style="margin-top:36px;">
+      <div>
+        <div class="cta-strip-title">Остались вопросы по вашей ситуации?</div>
+        <div class="cta-strip-text">Ответим на консультации — бесплатно и без обязательств</div>
+      </div>
+      <a href="#contact" class="btn btn-primary">Задать вопрос</a>
+    </div>
   </div>
 </section>
 
@@ -662,5 +700,42 @@
   </div>
 </footer>
 
+<script>
+  document.querySelectorAll('nav > .nav-item').forEach(function(item){
+    var link = item.querySelector('a');
+    if (item.querySelector('.dropdown') && window.matchMedia) {
+      link.addEventListener('click', function(e){
+        if (window.innerWidth <= 900) { e.preventDefault(); item.classList.toggle('open'); }
+      });
+    }
+  });
+
+  function setHeaderHeight(){
+    var header = document.querySelector('header');
+    if (header) document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+  }
+  setHeaderHeight();
+  window.addEventListener('resize', setHeaderHeight);
+  window.addEventListener('load', setHeaderHeight);
+
+  var anchorLinks = [];
+  var anchorTargets = [];
+  function initAnchorHighlight(){
+    anchorLinks = document.querySelectorAll('.page-anchors a');
+    anchorTargets = Array.prototype.map.call(anchorLinks, function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+    if (anchorTargets.length) {
+      highlightActiveAnchor();
+      window.addEventListener('scroll', highlightActiveAnchor, { passive: true });
+    }
+  }
+  function highlightActiveAnchor(){
+    if (!anchorTargets.length) return;
+    var pos = window.scrollY + (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 82) + 60;
+    var current = anchorTargets[0];
+    anchorTargets.forEach(function(t){ if (t.offsetTop <= pos) current = t; });
+    anchorLinks.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === '#' + current.id); });
+  }
+  initAnchorHighlight();
+</script>
 </body>
 </html>
